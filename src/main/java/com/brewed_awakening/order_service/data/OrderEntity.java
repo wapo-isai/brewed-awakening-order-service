@@ -1,8 +1,10 @@
 package com.brewed_awakening.order_service.data;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -17,11 +19,30 @@ public class OrderEntity {
     @Column(nullable = false, unique = true)
     private String orderNumber;
 
+    @CreatedDate
     private Date orderDate;
 
-    private float pricePaid;
+    private float totalPrice;
 
-    private String product;
+    @ElementCollection
+    private List<Long> productIds;
+
+    public OrderEntity(){}
+
+    public OrderEntity(String userId, String orderNumber, float totalPrice, List<Long> productIds) {
+        this.userId = userId;
+        this.orderNumber = orderNumber;
+        this.totalPrice = totalPrice;
+        this.productIds = productIds;
+    }
+
+    public List<Long> getProductIds() {
+        return productIds;
+    }
+
+    public void setProductIds(List<Long> productIds) {
+        this.productIds = productIds;
+    }
 
     public long getId() {
         return id;
@@ -55,19 +76,12 @@ public class OrderEntity {
         this.orderDate = orderDate;
     }
 
-    public float getPricePaid() {
-        return pricePaid;
+    public float getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setPricePaid(float pricePaid) {
-        this.pricePaid = pricePaid;
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
 }
